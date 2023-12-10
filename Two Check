@@ -1,0 +1,120 @@
+import java.util.ArrayList;
+
+public class Stack<T> {
+    private ArrayList<T> stack;
+    public Stack() {
+        this.stack = new ArrayList<>();
+    }
+    public void push(T element) {
+        stack.add(element);
+    }
+    public T pop() {
+        if (stack.isEmpty()) {
+            return null; 
+        }
+        return stack.remove(stack.size() - 1);
+    }
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+    public static void main(String[] args) {
+        Stack<Object> stack = new Stack<>();
+
+        // Добавление элемент
+        stack.push(5);
+        stack.push("Hello");
+        stack.push(true);
+
+        // Извлечение элемент
+        System.out.println(stack.pop()); // true
+        System.out.println(stack.pop()); // Hello
+
+        // Проверка isEmpty
+        System.out.println(stack.isEmpty()); // false
+        System.out.println(stack.pop()); // 5
+        System.out.println(stack.isEmpty()); // true
+    }
+}
+
+###########################################################################
+###########################################################################
+import java.util.Scanner;
+import java.util.HashMap;
+
+public class Calculator {
+    public enum Operation {
+        ADD,
+        SUBTRACT,
+        MULTIPLY,
+        DIVIDE
+    }
+
+    public abstract class Operator {
+        public abstract double operate(double x, double y);
+    }
+
+    public class AddOperator extends Operator {
+        @Override
+        public double operate(double x, double y) {
+            return x + y;
+        }
+    }
+
+    public class SubtractOperator extends Operator {
+        @Override
+        public double operate(double x, double y) {
+            return x - y;
+        }
+    }
+
+    public class MultiplyOperator extends Operator {
+        @Override
+        public double operate(double x, double y) {
+            return x * y;
+        }
+    }
+
+    public class DivideOperator extends Operator {
+        @Override
+        public double operate(double x, double y) {
+            return x / y;
+        }
+    }
+
+    private HashMap<Operation, Operator> operators;
+
+    public Calculator() {
+        operators = new HashMap<>();
+        operators.put(Operation.ADD, new AddOperator());
+        operators.put(Operation.SUBTRACT, new SubtractOperator());
+        operators.put(Operation.MULTIPLY, new MultiplyOperator());
+        operators.put(Operation.DIVIDE, new DivideOperator());
+    }
+
+    public double calculate(Operation operation, double x, double y) {
+        Operator operator = operators.get(operation);
+        if (operator != null) {
+            return operator.operate(x, y);
+        } else {
+            throw new IllegalArgumentException("Ошибка !!!");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Calculator calculator = new Calculator();
+
+        System.out.print("Enter first number: ");
+        double x = scanner.nextDouble();
+
+        System.out.print("Enter operation (ADD, SUBTRACT, MULTIPLY, DIVIDE): ");
+        Operation operation = Operation.valueOf(scanner.next().toUpperCase());
+
+        System.out.print("Enter second number: ");
+        double y = scanner.nextDouble();
+
+        double result = calculator.calculate(operation, x, y);
+        System.out.println("Результат: " + result);
+    }
+}
+
